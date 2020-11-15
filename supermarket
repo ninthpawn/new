@@ -1,0 +1,87 @@
+ürünler={}
+kisiler={}
+while True:
+    print("""            1==>Ürün Girişi(fiyatlar)
+             2==>Müşteri Girişi
+             3==>Müşteri Borç Listele
+             4==>Ürünleri Listeleme
+             5==>Ürün Satışı(nakit/borç)
+             6==>Borç Ödeme
+             7==>ÇIKIŞ""")
+    islem = int(input("Merhaba!İşlem seçiniz:"))
+    if islem==1:
+        while True:
+            ürün=input("Ürün adını giriniz(çıkmak için q):")
+            fiyat=input("Ürünün fiyatını giriniz:")
+            if fiyat.isdecimal():
+                ürünler[ürün] = fiyat
+            elif ürün=="q":
+                break
+            else:
+                print("Fiyat rakamlardan oluşmalıdır.")
+        print("İşlem Tamamlandı")
+    elif islem==2:
+        while True:
+            kisi=input("kişinin adını giriniz(çıkmak için q):")
+            if kisi.isdecimal():
+                print("İsim harflerden oluşmalidir.")
+            elif kisi=="q":
+                break
+            else:
+                kisiler[kisi] = 0
+        print("İşlem Tamamlandı.")
+    elif islem==3:
+        print(kisiler)
+    elif islem==4:
+        print(ürünler)
+    elif islem==5:
+        print(kisiler)
+        kime=input("Satis kime yapilacak?")
+        if kime in kisiler:
+            satis=input("Borç mu nakit mi?(b/n)")
+            if satis.lower()=="b":
+                while True:
+                    print(ürünler)
+                    satilan=input("Ürünün adini giriniz:")
+                    if satilan in ürünler:
+                        kac_tane=input("Kaç adet satılacak?(çıkmak için q):")
+                        if kac_tane.isdecimal:
+                            anlik_satis=int(ürünler.get(satilan))*int(kac_tane)
+                            onceki=kisiler.get(kime)
+                            suan=int(onceki)+anlik_satis
+                            kisiler.update({kime:suan})
+                        elif kac_tane=="q":
+                            break
+                        else:
+                            print("Adet sayısı tam sayı olmalıdır.")
+                            break
+                    else:
+                        print("Listeden bir ürün seçmeliydiniz.")
+                        break
+            elif satis.lower()=="n":
+                print("Nakit satışların kayıt altına alınmasına gerek duyulmamaktadır.")
+            else:
+                continue
+        else:
+            print("Bu kullanicinin kaydı yapılmamıştır.")
+    elif islem==6:
+        print(kisiler)
+        kimsin=input("Borcu ödenecek kişiyi seçiniz:")
+        if kimsin in kisiler:
+            before=int(kisiler.get(kimsin))
+            ödeme=int(input("Ödenecek tutarı giriniz:"))
+            a=ödeme-before
+            if a<0:
+                kisiler.update({kimsin:before-ödeme})
+            elif before==0:
+                print(ödeme,"TL geri veriniz.")
+            else:
+                kisiler.update({kimsin:0})
+                print(a,"TL geri veriniz.")
+        else:
+            print("Kayıtlı kullanıcılardan seçmelisiniz.")
+            break
+    elif islem==7:
+        break
+    else:
+        print("Yanlış tuşlama yaptiniz.")
